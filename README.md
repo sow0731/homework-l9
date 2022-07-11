@@ -12,15 +12,18 @@
 
 ### GETリクエスト実行結果(全件取得 / localhost:8080/vinyl-allにアクセスした場合)
 
-![](/Users/macos/Documents/プログラミング/Raisetech課題用キャプチャ/第9回CRUD処理課題/L9 get all.png)
+![L9 get all](https://user-images.githubusercontent.com/103630732/178266034-7f954812-d853-41a8-92a7-8d5618757e3b.png)
+
 
 ### GETリクエスト実行結果(idから該当のデータを取得 / localhost:8080/vinyl-by-id/?vinyl=idにアクセスした場合)
 
-![](/Users/macos/Documents/プログラミング/Raisetech課題用キャプチャ/第9回CRUD処理課題/L9 getById.png)
+![L9 getById](https://user-images.githubusercontent.com/103630732/178266111-bc5b6770-1f30-4a37-b71d-2b3cc64db424.png)
+
 
 ### GETリクエスト実行結果(idから該当のデータを取得 / localhost:8080/vinyl-by-id/?vinyl=idに登録のないidでアクセスした場合)
 
-![](/Users/macos/Documents/プログラミング/Raisetech課題用キャプチャ/第9回CRUD処理課題/L9 wrong ID.png)
+![L9 wrong ID](https://user-images.githubusercontent.com/103630732/178266146-8fc3e111-c19e-4977-9e18-2d8522312386.png)
+
 
 ## レイヤ構成
 
