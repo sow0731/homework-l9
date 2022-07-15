@@ -22,7 +22,7 @@ public class VinylController {
     }
 
     @GetMapping(value = {"vinyls", "/vinyls/{id}"})
-    public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
+    public Object getVinylById(@PathVariable(required = false) Integer id) {
         if (id == null) {
             return vinylService.findAll();
         }
