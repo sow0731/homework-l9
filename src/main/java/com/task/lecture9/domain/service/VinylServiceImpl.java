@@ -18,7 +18,6 @@ public class VinylServiceImpl implements VinylService {
 
     @Override
     public List<Vinyl> findAll() {
-
         return vinylMapper.findAll();
     }
 

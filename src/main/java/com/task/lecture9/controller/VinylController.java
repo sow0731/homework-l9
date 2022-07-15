@@ -22,11 +22,13 @@ public class VinylController {
         this.vinylService = vinylServiceImpl;
     }
 
-    @GetMapping(value = {"vinyls", "/vinyls/{id}"})
+    @GetMapping("/vinyls")
+    public Object getVinyls() {
+        return vinylService.findAll();
+    }
+
+    @GetMapping("/vinyls/{id}")
     public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
-        if (id == null) {
-            return vinylService.findAll();
-        }
         return vinylService.findVinyl(id);
     }
 
