@@ -1,7 +1,8 @@
 package com.task.lecture9.controller;
 
-import com.task.lecture9.domain.service.ResourceNotFoundException;
 import com.task.lecture9.domain.service.VinylService;
+import com.task.lecture9.domain.service.VinylServiceImpl;
+import com.task.lecture9.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,12 +18,12 @@ import java.util.Map;
 public class VinylController {
     private final VinylService vinylService;
 
-    public VinylController(VinylService vinylService) {
-        this.vinylService = vinylService;
+    public VinylController(VinylServiceImpl vinylServiceImpl) {
+        this.vinylService = vinylServiceImpl;
     }
 
     @GetMapping(value = {"vinyls", "/vinyls/{id}"})
-    public Object getVinylById(@PathVariable(required = false) Integer id) {
+    public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
         if (id == null) {
             return vinylService.findAll();
         }

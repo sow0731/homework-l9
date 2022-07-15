@@ -1,4 +1,4 @@
-package com.task.lecture9.domain.service;
+package com.task.lecture9.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException() {
