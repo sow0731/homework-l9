@@ -1,33 +1,45 @@
 package com.task.lecture9.controller;
 
+import com.task.lecture9.domain.service.ResourceNotFoundException;
 import com.task.lecture9.domain.service.VinylService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.ZonedDateTime;
+import java.util.Map;
+
 @RestController
 public class VinylController {
-    @Autowired
-    VinylService vinylService;
+    private final VinylService vinylService;
+
+    public VinylController(VinylService vinylService) {
+        this.vinylService = vinylService;
+    }
 
     @GetMapping(value = {"vinyls", "/vinyls/{id}"})
     public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
-        try {
-            if (id == null) {
-                return vinylService.findAll();
-
-            } else if (id <= 0 || id > 3) {
-                throw new Exception("ID(1~3)を入力してください");
-
-            } else if (id > 1 || id < 4) {
-                return vinylService.findById(id);
-
-            }
-        } catch (Exception e) {
-            return "入力に誤りがあります。" + e.getMessage();
+        if (id == null) {
+            return vinylService.findAll();
         }
+        return vinylService.findVinyl(id);
+    }
 
-        return null;
+    @ExceptionHandler(value = ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNoResourceFound(
+            ResourceNotFoundException e, HttpServletRequest request) {
+
+        Map<String, String> body = Map.of(
+                "timestamp", ZonedDateTime.now().toString(),
+                "status", String.valueOf(HttpStatus.NOT_FOUND.value()),
+                "error", HttpStatus.NOT_FOUND.getReasonPhrase(),
+                "message", e.getMessage(),
+                "path", request.getRequestURI());
+
+        return new ResponseEntity(body, HttpStatus.NOT_FOUND);
     }
 }

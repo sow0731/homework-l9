@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface VinylMapper {
@@ -12,5 +13,5 @@ public interface VinylMapper {
     List<Vinyl> findAll();
 
     @Select("SELECT * FROM vinyl WHERE id=#{id}")
-    Vinyl findById(int id);
+    Optional<Vinyl> findById(int id);
 }
