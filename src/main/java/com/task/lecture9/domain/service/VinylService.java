@@ -7,5 +7,5 @@ import java.util.List;
 public interface VinylService {
     List<Vinyl> findAll();
 
-    Vinyl findVinyl(Integer id) throws Exception;
+    Vinyl findById(Integer id) throws Exception;
 }
