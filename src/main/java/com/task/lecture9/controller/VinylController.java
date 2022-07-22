@@ -1,13 +1,17 @@
 package com.task.lecture9.controller;
 
+import com.task.lecture9.domain.Form.CreateForm;
 import com.task.lecture9.domain.service.VinylService;
 import com.task.lecture9.domain.service.VinylServiceImpl;
 import com.task.lecture9.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,12 +28,19 @@ public class VinylController {
 
     @GetMapping("/vinyls")
     public Object getVinyls() {
+
         return vinylService.findAll();
     }
 
     @GetMapping("/vinyls/{id}")
     public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
         return vinylService.findVinyl(id);
+    }
+
+    @PostMapping("/insert_vinyls")
+    public String create(@Validated @RequestBody CreateForm form) {
+        vinylService.insert(form);
+        return "New Vinyl Data Is Added";
     }
 
     @ExceptionHandler(value = ResourceNotFoundException.class)

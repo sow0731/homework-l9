@@ -1,5 +1,6 @@
 package com.task.lecture9.domain.service;
 
+import com.task.lecture9.domain.Form.CreateForm;
 import com.task.lecture9.domain.model.Vinyl;
 import com.task.lecture9.exception.ResourceNotFoundException;
 import com.task.lecture9.infrastructure.VinylMapper;
@@ -24,5 +25,9 @@ public class VinylServiceImpl implements VinylService {
     @Override
     public Vinyl findVinyl(Integer id) {
         return this.vinylMapper.findById(id).orElseThrow(() -> new ResourceNotFoundException("resource not found"));
+    }
+    @Override
+    public void insert(CreateForm form) {
+        vinylMapper.insert(form);
     }
 }
