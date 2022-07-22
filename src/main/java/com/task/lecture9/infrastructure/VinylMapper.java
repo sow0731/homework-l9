@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper
 public interface VinylMapper {
@@ -21,4 +20,5 @@ public interface VinylMapper {
     @Insert("INSERT INTO vinyl (id, title, artist, label, year) VALUES (#{id}, #{title}, #{artist}, #{label}, #{year})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(CreateForm form);
+    Vinyl findById(int id);
 }

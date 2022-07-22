@@ -1,5 +1,6 @@
 package com.task.lecture9.controller;
 
+
 import com.task.lecture9.domain.Form.CreateForm;
 import com.task.lecture9.domain.service.VinylService;
 import com.task.lecture9.domain.service.VinylServiceImpl;
@@ -12,15 +13,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.task.lecture9.domain.model.Vinyl;
+import com.task.lecture9.domain.service.VinylService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.time.ZonedDateTime;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 public class VinylController {
-    private final VinylService vinylService;
+    @Autowired
+    VinylService vinylService;
+
 
     public VinylController(VinylServiceImpl vinylServiceImpl) {
         this.vinylService = vinylServiceImpl;
@@ -29,13 +35,18 @@ public class VinylController {
     @GetMapping("/vinyls")
     public Object getVinyls() {
 
+
+    @GetMapping("/vinyl-all")
+    public List<Vinyl> getVinyl() {
+
         return vinylService.findAll();
     }
 
-    @GetMapping("/vinyls/{id}")
-    public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
-        return vinylService.findVinyl(id);
-    }
+    @GetMapping("/vinyl-by-id")
+    public Object getVinylById(@RequestParam(name = "vinyl") Integer id) throws Exception {
+        try {
+            if (id <= 0 || id > 3) {
+                throw new Exception("ID(1~3)を入力してください");
 
     @PostMapping("/insert_vinyls")
     public String create(@Validated @RequestBody CreateForm form) {
@@ -46,14 +57,13 @@ public class VinylController {
     @ExceptionHandler(value = ResourceNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleNoResourceFound(
             ResourceNotFoundException e, HttpServletRequest request) {
+            } else if (id > 1 || id < 4) {
+                return vinylService.findById(id);
+            }
+        } catch (Exception e) {
+            return "入力に誤りがあります。" + e.getMessage();
+        }
 
-        Map<String, String> body = Map.of(
-                "timestamp", ZonedDateTime.now().toString(),
-                "status", String.valueOf(HttpStatus.NOT_FOUND.value()),
-                "error", HttpStatus.NOT_FOUND.getReasonPhrase(),
-                "message", e.getMessage(),
-                "path", request.getRequestURI());
-
-        return new ResponseEntity(body, HttpStatus.NOT_FOUND);
+        return null;
     }
 }

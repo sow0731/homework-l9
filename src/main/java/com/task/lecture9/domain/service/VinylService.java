@@ -11,4 +11,5 @@ public interface VinylService {
     Vinyl findVinyl(Integer id) throws Exception;
 
     void insert(CreateForm form);
+    Vinyl findById(Integer id) throws Exception;
 }
