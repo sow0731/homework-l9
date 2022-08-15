@@ -8,7 +8,9 @@ import java.util.List;
 public interface VinylService {
     List<Vinyl> findAll();
 
-    Vinyl findVinyl(Integer id) throws Exception;
+List<Vinyl> findAll();
 
-    void insert(CreateForm form);
+    Vinyl findById(Integer id) throws Exception;
+
+    void insert(VinylDto vinylDto);
 }

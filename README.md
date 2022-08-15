@@ -73,4 +73,3 @@
 ### GETリクエスト実行結果(存在しない"id"でlocalhost:8080/vinyls/{id}にアクセスした場合)
 
 ![L9 update wrong ID](https://user-images.githubusercontent.com/103630732/179193927-0f5612cd-0e5a-4adb-b8fc-a67316c996b9.png)
-

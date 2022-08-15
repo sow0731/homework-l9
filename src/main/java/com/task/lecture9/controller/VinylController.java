@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.time.ZonedDateTime;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 public class VinylController {
@@ -33,13 +31,21 @@ public class VinylController {
     }
 
     @GetMapping("/vinyls/{id}")
-    public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
-        return vinylService.findVinyl(id);
+    public Object getVinylById(@Validated @PathVariable(required = false) Integer id) throws Exception {
+        return vinylService.findById(id);
     }
 
-    @PostMapping("/insert_vinyls")
-    public String create(@Validated @RequestBody CreateForm form) {
-        vinylService.insert(form);
+     @PostMapping("/vinyls")
+    public String insertVinylData(@Validated @RequestBody InsertForm insertForm) {
+        VinylDto vinylDto = new VinylDto();
+
+        vinylDto.setTitle((insertForm.getTitle()));
+        vinylDto.setArtist(insertForm.getArtist());
+        vinylDto.setLabel(insertForm.getLabel());
+        vinylDto.setRelease_year(insertForm.getRelease_year());
+
+        vinylService.insert(vinylDto);
+
         return "New Vinyl Data Is Added";
     }
 
