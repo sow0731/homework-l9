@@ -1,41 +1,35 @@
-package com.task.lecture9.domain.Form;
+package com.task.lecture9.form;
 
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-public class CreateForm {
+public class InsertForm {
 
-    private final Integer id;
-
-    @NotBlank
-    @Length(max = 30, message = "titleは100文字以内で入力してください")
+    @NotBlank(message = "titleを入力をしてください")
+    @Length(max = 30, message = "titleは30文字以内で入力してください")
     private String title;
 
 
-    @NotBlank
-    @Length(max = 30)
+    @NotBlank(message = "artistを入力をしてください")
+    @Length(max = 30, message = "artistは30文字以内で入力してください")
     private String artist;
 
-    @NotBlank
-    @Length(max = 30)
+    @NotBlank(message = "labelを入力をしてください")
+    @Length(max = 30, message = "labelは30文字以内で入力してください")
     private String label;
 
-    @NotNull
+    @Digits(integer = 4, fraction = 0, message = "release_yearは4桁で入力してください")
     private int release_year;
 
-    public CreateForm(Integer id, String title, String artist, String label, int release_year) {
-        this.id = id;
+    public InsertForm(Integer id, String title, String artist, String label, int release_year) {
         this.title = title;
         this.artist = artist;
         this.label = label;
         this.release_year = release_year;
     }
 
-    public Integer getId() {
-        return id;
-    }
     public String getTitle() {
         return title;
     }

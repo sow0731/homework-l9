@@ -1,9 +1,11 @@
 package com.task.lecture9.controller;
 
-import com.task.lecture9.domain.Form.CreateForm;
-import com.task.lecture9.domain.service.VinylService;
-import com.task.lecture9.domain.service.VinylServiceImpl;
+import com.task.lecture9.dto.VinylDto;
 import com.task.lecture9.exception.ResourceNotFoundException;
+import com.task.lecture9.form.InsertForm;
+import com.task.lecture9.repository.entity.Vinyl;
+import com.task.lecture9.service.VinylService;
+import com.task.lecture9.service.VinylServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,9 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,20 +32,29 @@ public class VinylController {
     }
 
     @GetMapping("/vinyls")
-    public Object getVinyls() {
+    public List<Vinyl> getVinyls() {
 
         return vinylService.findAll();
     }
 
     @GetMapping("/vinyls/{id}")
-    public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
-        return vinylService.findVinyl(id);
+    public Object getVinylById(@Validated @PathVariable(required = false) Integer id) throws Exception {
+        return vinylService.findById(id);
     }
 
-    @PostMapping("/insert_vinyls")
-    public String create(@Validated @RequestBody CreateForm form) {
-        vinylService.insert(form);
-        return "New Vinyl Data Is Added";
+    @PostMapping("/vinyls")
+    public ResponseEntity<Map> create(@RequestBody InsertForm insertForm, HttpServletRequest request) {
+        VinylDto vinylDto = new VinylDto();
+
+        vinylDto.setTitle((insertForm.getTitle()));
+        vinylDto.setArtist(insertForm.getArtist());
+        vinylDto.setLabel(insertForm.getLabel());
+        vinylDto.setRelease_year(insertForm.getRelease_year());
+
+        int id = vinylService.insert(vinylDto);
+
+        URI uri = ServletUriComponentsBuilder.fromContextPath(request).path("/vinyls/" + id).build().toUri();
+        return ResponseEntity.created(uri).body(Map.of("message", "New Vinyl Data Is Added"));
     }
 
     @ExceptionHandler(value = ResourceNotFoundException.class)

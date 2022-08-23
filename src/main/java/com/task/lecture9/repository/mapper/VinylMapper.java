@@ -1,7 +1,7 @@
-package com.task.lecture9.infrastructure;
+package com.task.lecture9.repository.mapper;
 
-import com.task.lecture9.domain.Form.CreateForm;
-import com.task.lecture9.domain.model.Vinyl;
+import com.task.lecture9.dto.VinylDto;
+import com.task.lecture9.repository.entity.Vinyl;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -16,9 +16,10 @@ public interface VinylMapper {
     List<Vinyl> findAll();
 
     @Select("SELECT * FROM vinyl WHERE id=#{id}")
-    Optional<Vinyl> findById(int id);
+    Optional<Vinyl> findById(Integer id);
 
-    @Insert("INSERT INTO vinyl (id, title, artist, label, year) VALUES (#{id}, #{title}, #{artist}, #{label}, #{year})")
+    @Insert("INSERT INTO vinyl (id, title, artist, label, release_year) VALUES (#{id}, #{title}, #{artist}, #{label}," +
+            " #{release_year})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void insert(CreateForm form);
+    void insert(VinylDto vinylDto);
 }

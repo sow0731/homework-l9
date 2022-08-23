@@ -1,0 +1,12 @@
+cacheConnection: false
+cacheTableNames: false
+properties:
+  schema: vinyl_list
+caseInsensitiveStrategy: LOWERCASE
+connectionConfig:
+  url: "jdbc:mysql://localhost:3307/vinyl_list"
+  user: "root"
+  password: "example"
+
+
+
