@@ -15,4 +15,3 @@ public class ResourceNotFoundException extends RuntimeException {
         super(cause);
     }
 }
-
