@@ -38,15 +38,27 @@
 
 ### GETリクエスト実行結果(全件取得 / localhost:8080/vinyls にアクセスした場合)
 
-![L9 get all](https://user-images.githubusercontent.com/103630732/178266034-7f954812-d853-41a8-92a7-8d5618757e3b.png)
+![2022-08-26 getAll](https://user-images.githubusercontent.com/103630732/186865306-0d9ff33a-730b-4765-b494-701391cda9fb.png)
 
 ### GETリクエスト実行結果(idから該当のデータを取得 / localhost:8080/vinyls/{id}にアクセスした場合)
 
-![L9 getById](https://user-images.githubusercontent.com/103630732/178266111-bc5b6770-1f30-4a37-b71d-2b3cc64db424.png)
+![2022-08-26 getById](https://user-images.githubusercontent.com/103630732/186865629-80255d37-a803-472c-b725-c4b108c08776.png)
 
 ### GETリクエスト実行結果(存在しない"id"でlocalhost:8080/vinyls/{id}にアクセスした場合)
 
-![L9 wrong ID](https://user-images.githubusercontent.com/103630732/178266146-8fc3e111-c19e-4977-9e18-2d8522312386.png)
+![2022-08-26 notFoundException](https://user-images.githubusercontent.com/103630732/186867573-05c708c8-ad2c-4b8d-9d4f-42e169c36af8.png)
+
+### POSTリクエスト実行結果(新規登録localhost:8080/vinylsにアクセスした場合)
+
+![2022-08-26 postNewVinyl](https://user-images.githubusercontent.com/103630732/186867842-9ecd22b7-e1e9-4773-9101-f76b404986c6.png)
+
+### POSTリクエスト実行後にGETリクエストを実行した結果(全件取得 / localhost:8080/vinyls にアクセスした場合)
+
+![2022-08-26 getAllAfterPost](https://user-images.githubusercontent.com/103630732/186868501-788a4ba6-4ba3-49e1-966b-c084ef195ba1.png)
+
+### POSTリクエスト実行後にGETリクエストを実行した結果(idから該当のデータを取得 / localhost:8080/vinyls/4 にアクセスした場合)
+
+![2022-08-26 getByIdAfterPost](https://user-images.githubusercontent.com/103630732/186868866-27d9999d-c174-42bf-980c-b1190297e19c.png)
 
 ## テスト一覧
 - **VinylMaperTest**
