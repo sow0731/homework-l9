@@ -83,7 +83,7 @@ public class VinylIntegrationTest {
     void Vinylデータが新たに登録できること() throws Exception {
         String response = mockMvc.perform(MockMvcRequestBuilders.post("/vinyls")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\":\"sss\",\"artist\":\"ddd\",\"label\":\"fff\",\"release_year\":\"2003\"}"))
+                        .content("{\"title\":\"sss\",\"artist\":\"ddd\",\"label\":\"fff\",\"releaseYear\": 2003}"))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         JSONAssert.assertEquals("{\"message\":\"New Vinyl Data Is Added\"}", response, JSONCompareMode.STRICT);

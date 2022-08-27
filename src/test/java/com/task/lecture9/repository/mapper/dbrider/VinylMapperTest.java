@@ -1,9 +1,10 @@
-package com.task.lecture9.repository.Mapper.dbrider;
+package com.task.lecture9.repository.mapper.dbrider;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import com.task.lecture9.dto.VinylDto;
+import com.task.lecture9.form.InsertForm;
 import com.task.lecture9.repository.entity.Vinyl;
 import com.task.lecture9.repository.mapper.VinylMapper;
 import org.junit.jupiter.api.Test;
@@ -62,15 +63,15 @@ class VinylMapperTest {
     @ExpectedDataSet(value = "datasets/expectedVinylDataAfterInsert.yml", ignoreCols = "id")
     @Transactional
     void 新たにVinylデータが登録できること() {
-        VinylDto vinylDto = new VinylDto();
-
-        vinylDto.setTitle("sss");
-        vinylDto.setArtist("ddd");
-        vinylDto.setLabel("fff");
-        vinylDto.setRelease_year(2003);
-
+        InsertForm insertForm = new InsertForm("sss", "ddd", "fff", 2003);
+        VinylDto vinylDto = new VinylDto(
+                insertForm.getTitle(),
+                insertForm.getArtist(),
+                insertForm.getLabel(),
+                insertForm.getReleaseYear()
+        );
 //        idの自動採番が正しく機能するか確認
         vinylMapper.insert(vinylDto);
-        assertThat(vinylDto.getId()).isEqualTo(15);
+        assertThat(vinylDto.getId()).isEqualTo(7);
     }
 }

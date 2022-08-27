@@ -9,14 +9,14 @@ public class Vinyl {
     private String title;
     private String artist;
     private String label;
-    private int release_year;
+    private int releaseYear;
 
-    public Vinyl(int id, String title, String artist, String label, int release_year) {
+    public Vinyl(int id, String title, String artist, String label, int releaseYear) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.label = label;
-        this.release_year = release_year;
+        this.releaseYear = releaseYear;
     }
     public Integer getId() {
         return id;
@@ -45,12 +45,12 @@ public class Vinyl {
         this.label = label;
     }
 
-    public int getRelease_year() {
-        return release_year;
+    public int getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setRelease_year(Year Year) {
-        this.release_year = release_year;
+    public void setReleaseYear(Year Year) {
+        this.releaseYear = releaseYear;
     }
 
     @Override
@@ -62,12 +62,12 @@ public class Vinyl {
             return false;
         }
         Vinyl vinyl = (Vinyl) o;
-        return release_year == vinyl.release_year && Objects.equals(id, vinyl.id) && Objects.equals(title,
+        return releaseYear == vinyl.releaseYear && Objects.equals(id, vinyl.id) && Objects.equals(title,
                 vinyl.title) && Objects.equals(artist, vinyl.artist) && Objects.equals(label, vinyl.label);
     }
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, artist, label, release_year);
+        return Objects.hash(id, title, artist, label, releaseYear);
     }
     @Override
     public String toString() {
@@ -76,7 +76,7 @@ public class Vinyl {
                 ", title='" + title + '\'' +
                 ", artist='" + artist + '\'' +
                 ", label='" + label + '\'' +
-                ", release_year=" + release_year +
+                ", release_year=" + releaseYear +
                 '}';
     }
 }

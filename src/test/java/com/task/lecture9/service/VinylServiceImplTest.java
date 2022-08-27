@@ -2,6 +2,7 @@ package com.task.lecture9.service;
 
 import com.task.lecture9.dto.VinylDto;
 import com.task.lecture9.exception.ResourceNotFoundException;
+import com.task.lecture9.form.InsertForm;
 import com.task.lecture9.repository.entity.Vinyl;
 import com.task.lecture9.repository.mapper.VinylMapper;
 import org.junit.jupiter.api.Test;
@@ -59,11 +60,13 @@ class VinylServiceImplTest {
 
     @Test
     void 新たにVinylを追加できること() {
-        VinylDto vinylDto = new VinylDto();
-        vinylDto.setTitle("ss");
-        vinylDto.setTitle("dd");
-        vinylDto.setLabel("ff");
-        vinylDto.setRelease_year(2003);
+        InsertForm insertForm = new InsertForm("ss", "dd", "ff", 2003);
+        VinylDto vinylDto = new VinylDto(
+                insertForm.getTitle(),
+                insertForm.getArtist(),
+                insertForm.getLabel(),
+                insertForm.getReleaseYear());
+
 
         vinylMapper.insert(vinylDto);
         verify(vinylMapper, times(1)).insert(vinylDto);

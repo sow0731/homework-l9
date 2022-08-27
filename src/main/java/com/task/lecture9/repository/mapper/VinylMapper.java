@@ -19,7 +19,7 @@ public interface VinylMapper {
     Optional<Vinyl> findById(Integer id);
 
     @Insert("INSERT INTO vinyl (id, title, artist, label, release_year) VALUES (#{id}, #{title}, #{artist}, #{label}," +
-            " #{release_year})")
+            " #{releaseYear})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(VinylDto vinylDto);
 }

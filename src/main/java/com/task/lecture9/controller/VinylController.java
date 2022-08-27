@@ -44,13 +44,13 @@ public class VinylController {
 
     @PostMapping("/vinyls")
     public ResponseEntity<Map> create(@RequestBody InsertForm insertForm, HttpServletRequest request) {
-        VinylDto vinylDto = new VinylDto();
 
-        vinylDto.setTitle((insertForm.getTitle()));
-        vinylDto.setArtist(insertForm.getArtist());
-        vinylDto.setLabel(insertForm.getLabel());
-        vinylDto.setRelease_year(insertForm.getRelease_year());
-
+        VinylDto vinylDto = new VinylDto(
+                insertForm.getTitle(),
+                insertForm.getArtist(),
+                insertForm.getLabel(),
+                insertForm.getReleaseYear());
+        
         int id = vinylService.insert(vinylDto);
 
         URI uri = ServletUriComponentsBuilder.fromContextPath(request).path("/vinyls/" + id).build().toUri();
