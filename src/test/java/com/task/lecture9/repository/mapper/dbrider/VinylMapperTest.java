@@ -47,7 +47,7 @@ class VinylMapperTest {
     @Transactional
     void 指定したidから特定のVinylデータが取得できること() {
         Optional<Vinyl> vinyl = vinylMapper.findById(1);
-        assertThat(vinyl).isEqualTo(Optional.of(new Vinyl(1, "aa", "bb", "cc", 1999)));
+        assertThat(vinyl).hasValue((new Vinyl(1, "aa", "bb", "cc", 1999)));
     }
 
     @Test

@@ -8,16 +8,16 @@ import javax.validation.constraints.NotBlank;
 public class InsertForm {
 
     @NotBlank(message = "titleを入力をしてください")
-    @Length(max = 30, message = "titleは30文字以内で入力してください")
+    @Length(max = 50, message = "titleは50文字以内で入力してください")
     private final String title;
 
 
     @NotBlank(message = "artistを入力をしてください")
-    @Length(max = 30, message = "artistは30文字以内で入力してください")
+    @Length(max = 50, message = "artistは50文字以内で入力してください")
     private final String artist;
 
     @NotBlank(message = "labelを入力をしてください")
-    @Length(max = 30, message = "labelは30文字以内で入力してください")
+    @Length(max = 50, message = "labelは50文字以内で入力してください")
     private final String label;
 
     @Digits(integer = 4, fraction = 0, message = "release_yearは4桁で入力してください")
