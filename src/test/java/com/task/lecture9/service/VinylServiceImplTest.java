@@ -58,10 +58,10 @@ class VinylServiceImplTest {
         doReturn(Optional.empty()).when(vinylMapper).findById(anyInt());
 
         ResourceNotFoundException e =
-                assertThrows(ResourceNotFoundException.class, () -> vinylServiceImpl.findById(anyInt()));
+                assertThrows(ResourceNotFoundException.class, () -> vinylServiceImpl.findById(99));
         assertThat(e.getMessage()).isEqualTo("データが見つかりません");
 
-        verify(vinylMapper, times(1)).findById(anyInt());
+        verify(vinylMapper, times(1)).findById(99);
     }
 
     @Test
