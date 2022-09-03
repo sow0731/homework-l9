@@ -10,7 +10,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: vinyl-list
+      MYSQL_DATABASE: vinyl_list
       MYSQL_PASSWORD: pass
     ports:
       - 3307:3306
