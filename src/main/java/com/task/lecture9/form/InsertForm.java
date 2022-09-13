@@ -1,29 +1,32 @@
 package com.task.lecture9.form;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
+@Data
 public class InsertForm {
 
     @NotBlank(message = "titleを入力をしてください")
     @Length(max = 50, message = "titleは50文字以内で入力してください")
-    private final String title;
+    private String title;
 
 
     @NotBlank(message = "artistを入力をしてください")
     @Length(max = 50, message = "artistは50文字以内で入力してください")
-    private final String artist;
+    private String artist;
 
     @NotBlank(message = "labelを入力をしてください")
     @Length(max = 50, message = "labelは50文字以内で入力してください")
-    private final String label;
+    private String label;
 
-    @Digits(integer = 4, fraction = 0, message = "release_yearは4桁で入力してください")
-    private final int releaseYear;
+    @NotBlank(message = "releaseYearを入力してください")
+    @Length(min = 4, max = 4, message = "releaseYearは4桁で入力してください")
+    private String releaseYear;
 
-    public InsertForm(String title, String artist, String label, int releaseYear) {
+    public InsertForm(String title, String artist, String label, String releaseYear) {
         this.title = title;
         this.artist = artist;
         this.label = label;
@@ -39,7 +42,23 @@ public class InsertForm {
     public String getLabel() {
         return label;
     }
-    public int getReleaseYear() {
+    public String getReleaseYear() {
         return releaseYear;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        InsertForm that = (InsertForm) o;
+        return releaseYear == that.releaseYear && title.equals(that.title) && artist.equals(that.artist) && label.equals(that.label);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, artist, label, releaseYear);
     }
 }
