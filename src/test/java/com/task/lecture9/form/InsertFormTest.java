@@ -1,7 +1,6 @@
 package com.task.lecture9.form;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -12,7 +11,6 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest
 class InsertFormTest {
 
     @Test
@@ -41,6 +39,8 @@ class InsertFormTest {
                         tuple("title", "titleを入力をしてください"),
                         tuple("artist", "artistを入力をしてください"),
                         tuple("label", "labelを入力をしてください"),
-                        tuple("releaseYear", "releaseYearは4桁で入力してください"));
+                        tuple("releaseYear", "releaseYearを入力してください"),
+                        tuple("releaseYear", "releaseYearは4桁で入力してください")
+                             );
     }
 }
