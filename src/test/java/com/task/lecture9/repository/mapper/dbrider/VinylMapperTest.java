@@ -38,8 +38,8 @@ class VinylMapperTest {
         assertThat(vinyls)
                 .hasSize(2)
                 .contains(
-                        new Vinyl(1, "aa", "bb", "cc", 1999),
-                        new Vinyl(2, "aaa", "bbb", "ccc", 2000));
+                        new Vinyl(1, "aa", "bb", "cc", "1999"),
+                        new Vinyl(2, "aaa", "bbb", "ccc", "2000"));
     }
 
     @Test
@@ -47,7 +47,7 @@ class VinylMapperTest {
     @Transactional
     void 指定したidから特定のVinylデータが取得できること() {
         Optional<Vinyl> vinyl = vinylMapper.findById(1);
-        assertThat(vinyl).hasValue((new Vinyl(1, "aa", "bb", "cc", 1999)));
+        assertThat(vinyl).hasValue((new Vinyl(1, "aa", "bb", "cc", "1999")));
     }
 
     @Test
@@ -63,7 +63,7 @@ class VinylMapperTest {
     @ExpectedDataSet(value = "datasets/expectedVinylDataAfterInsert.yml", ignoreCols = "id")
     @Transactional
     void 新たにVinylデータが登録できること() {
-        InsertForm insertForm = new InsertForm("sss", "ddd", "fff", 2003);
+        InsertForm insertForm = new InsertForm("sss", "ddd", "fff", "2003");
         VinylDto vinylDto = new VinylDto(
                 insertForm.getTitle(),
                 insertForm.getArtist(),

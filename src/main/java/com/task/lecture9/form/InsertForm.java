@@ -4,26 +4,27 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Data
 public class InsertForm {
 
-    @NotBlank(message = "titleを入力をしてください")
-    @Length(max = 50, message = "titleは50文字以内で入力してください")
+    @NotBlank(message = "titleを入力してください", groups = ValidationGroupFirst.class)
+    @Length(max = 50, message = "titleは50文字以内で入力してください", groups = ValidationGroupSecond.class)
     private String title;
 
 
-    @NotBlank(message = "artistを入力をしてください")
-    @Length(max = 50, message = "artistは50文字以内で入力してください")
+    @NotBlank(message = "artistを入力してください", groups = ValidationGroupFirst.class)
+    @Length(max = 50, message = "artistは50文字以内で入力してください", groups = ValidationGroupSecond.class)
     private String artist;
 
-    @NotBlank(message = "labelを入力をしてください")
-    @Length(max = 50, message = "labelは50文字以内で入力してください")
+    @NotBlank(message = "labelを入力してください", groups = ValidationGroupFirst.class)
+    @Length(max = 50, message = "labelは50文字以内で入力してください", groups = ValidationGroupSecond.class)
     private String label;
 
-    @NotBlank(message = "releaseYearを入力してください")
-    @Length(min = 4, max = 4, message = "releaseYearは4桁で入力してください")
+    @NotBlank(message = "releaseYearを入力してください", groups = ValidationGroupFirst.class)
+    @Pattern(regexp = "^\\d{4}$", message = "整数4桁で入力してください", groups = ValidationGroupSecond.class)
     private String releaseYear;
 
     public InsertForm(String title, String artist, String label, String releaseYear) {
@@ -55,7 +56,7 @@ public class InsertForm {
             return false;
         }
         InsertForm that = (InsertForm) o;
-        return releaseYear == that.releaseYear && title.equals(that.title) && artist.equals(that.artist) && label.equals(that.label);
+        return title.equals(that.title) && artist.equals(that.artist) && label.equals(that.label) && releaseYear.equals(that.releaseYear);
     }
     @Override
     public int hashCode() {

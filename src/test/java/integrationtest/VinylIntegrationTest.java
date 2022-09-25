@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -107,5 +108,109 @@ public class VinylIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         JSONAssert.assertEquals("{\"message\":\"New Vinyl Data Is Added\"}", response, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    @DataSet(cleanBefore = true)
+    @Transactional
+    void 必須項目を全て空文字で登録しようとした場合Badリクエストが返って来ること() throws Exception {
+        try (MockedStatic<ZonedDateTime> zonedDateTimeMockedStatic = Mockito.mockStatic(ZonedDateTime.class)) {
+            zonedDateTimeMockedStatic.when(ZonedDateTime::now).thenReturn(zonedDataTime);
+            String response = mockMvc.perform(MockMvcRequestBuilders.post("/vinyls")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{}")
+                            .header(HttpHeaders.ACCEPT_LANGUAGE, "ja-JP"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+            JSONAssert.assertEquals("{" +
+                    "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
+                    "\"status\":\"400\"," +
+                    "\"error\":\"Bad Request\"," +
+                    "\"message\": {\"title\":\"titleを入力してください\"," +
+                    "\"artist\":\"artistを入力してください\"," +
+                    "\"label\":\"labelを入力してください\"," +
+                    "\"releaseYear\":\"releaseYearを入力してください\"}}", response, JSONCompareMode.STRICT);
+        }
+    }
+
+    @Test
+    @DataSet(cleanBefore = true)
+    @Transactional
+    void 必須項目文字数制限以上で登録しようとしたBadリクエストが返って来ること() throws Exception {
+        try (MockedStatic<ZonedDateTime> zonedDateTimeMockedStatic = Mockito.mockStatic(ZonedDateTime.class)) {
+            zonedDateTimeMockedStatic.when(ZonedDateTime::now).thenReturn(zonedDataTime);
+
+            String response = mockMvc.perform(MockMvcRequestBuilders.post("/vinyls")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"title\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"," +
+                                    "\"artist\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"," +
+                                    "\"label\":\"ccccccccccccccccccccccccccccccccccccccccccccccccccc\"," +
+                                    "\"releaseYear\":\"20003\"}")
+                            .header(HttpHeaders.ACCEPT_LANGUAGE, "ja-JP"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+            JSONAssert.assertEquals("{" +
+                    "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
+                    "\"status\":\"400\"," +
+                    "\"error\":\"Bad Request\"," +
+                    "\"message\": {" +
+                    "\"title\":\"titleは50文字以内で入力してください\"," +
+                    "\"artist\":\"artistは50文字以内で入力してください\"," +
+                    "\"label\":\"labelは50文字以内で入力してください\"," +
+                    "\"releaseYear\":\"整数4桁で入力してください\"}" +
+                    "}", response, JSONCompareMode.STRICT);
+        }
+    }
+
+    @Test
+    @DataSet(cleanBefore = true)
+    @Transactional
+    void releaseYearに整数以外が入力された場合Badリクエストが返って来ること() throws Exception {
+        try (MockedStatic<ZonedDateTime> zonedDateTimeMockedStatic = Mockito.mockStatic(ZonedDateTime.class)) {
+            zonedDateTimeMockedStatic.when(ZonedDateTime::now).thenReturn(zonedDataTime);
+
+            String response = mockMvc.perform(MockMvcRequestBuilders.post("/vinyls")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"title\":\"aaaaaa\"," +
+                                    "\"artist\":\"bbbbbb\"," +
+                                    "\"label\":\"ccccccc\"," +
+                                    "\"releaseYear\":\"cccc\"}")
+                            .header(HttpHeaders.ACCEPT_LANGUAGE, "ja-JP"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+            JSONAssert.assertEquals("{" +
+                    "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
+                    "\"status\":\"400\"," +
+                    "\"error\":\"Bad Request\"," +
+                    "\"message\": {\"releaseYear\":\"整数4桁で入力してください\"}}", response, JSONCompareMode.STRICT);
+        }
+    }
+
+    @Test
+    @DataSet(cleanBefore = true)
+    @Transactional
+    void releaseYearに4桁未満の整数が入力された場合Badリクエストが返って来ること() throws Exception {
+        try (MockedStatic<ZonedDateTime> zonedDateTimeMockedStatic = Mockito.mockStatic(ZonedDateTime.class)) {
+            zonedDateTimeMockedStatic.when(ZonedDateTime::now).thenReturn(zonedDataTime);
+
+            String response = mockMvc.perform(MockMvcRequestBuilders.post("/vinyls")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"title\":\"aaaaaa\"," +
+                                    "\"artist\":\"bbbbbb\"," +
+                                    "\"label\":\"ccccccc\"," +
+                                    "\"releaseYear\":\"203\"}")
+                            .header(HttpHeaders.ACCEPT_LANGUAGE, "ja-JP"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+            JSONAssert.assertEquals("{" +
+                    "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
+                    "\"status\":\"400\"," +
+                    "\"error\":\"Bad Request\"," +
+                    "\"message\": {\"releaseYear\":\"整数4桁で入力してください\"}}", response, JSONCompareMode.STRICT);
+        }
     }
 }
