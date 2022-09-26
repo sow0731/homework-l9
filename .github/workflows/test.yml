@@ -17,10 +17,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: SetLocale
-        run: |
-          sudo locale-gen ja_JP.UTF-8
-          sudo update-locale LANG=ja_JP.UTF-8
       - name: Up container
         run: docker compose up -d
       - name: Set up JDK 18
@@ -28,8 +24,7 @@ jobs:
         with:
           java-version: '18'
           distribution: 'temurin'
-          cache: 'gradle'
-      - name: Build with Gradle
+      - name: Test with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: test
