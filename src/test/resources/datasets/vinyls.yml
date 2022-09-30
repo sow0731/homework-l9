@@ -3,9 +3,9 @@ vinyl:
     title: "aa"
     artist: "bb"
     label: "cc"
-    release_year: 1999
+    release_year: "1999"
   - id: 2
     title: "aaa"
     artist: "bbb"
     label: "ccc"
-    release_year: 2000
+    release_year: "2000"

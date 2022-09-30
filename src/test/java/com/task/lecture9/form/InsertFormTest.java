@@ -38,7 +38,7 @@ class InsertFormTest {
                         tuple("title", "titleを入力してください"),
                         tuple("artist", "artistを入力してください"),
                         tuple("label", "labelを入力してください"),
-                        tuple("releaseYear", "releaseYear入力をしてください"));
+                        tuple("releaseYear", "releaseYearを入力してください"));
     }
 
     @Test

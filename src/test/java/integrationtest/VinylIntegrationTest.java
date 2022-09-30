@@ -35,7 +35,7 @@ public class VinylIntegrationTest {
     ZonedDateTime zonedDataTime = ZonedDateTime.of(2022, 8, 31, 0, 0, 0, 0, ZoneId.of("Asia/Tokyo"));
 
     @Test
-    @DataSet(value = "vinyls.yml")
+    @DataSet(value = "datasets/vinyls.yml")
     @Transactional
     void 全てのVinylデータが取得できること() throws Exception {
         String response = mockMvc.perform(MockMvcRequestBuilders.get("/vinyls"))
@@ -45,22 +45,22 @@ public class VinylIntegrationTest {
         JSONAssert.assertEquals("[" +
                 "{" +
                 "\"id\":1," +
-                "\"title\":aa," +
-                "\"artist\": bb," +
-                "\"label\": cc," +
-                "\"release_year\":1999" +
+                "\"title\":\"aa\"," +
+                "\"artist\":\"bb\"," +
+                "\"label\":\"cc\"," +
+                "\"releaseYear\":\"1999\"" +
                 "}," +
                 "{ " +
                 "\"id\":2," +
-                "\"title\": aaa," +
-                "\"artist\": bbb," +
-                "\"label\":ccc," +
-                "\"release_year\":2000" +
+                "\"title\":\"aaa\"," +
+                "\"artist\":\"bbb\"," +
+                "\"label\":\"ccc\"," +
+                "\"releaseYear\":\"2000\"" +
                 "}" +
                 "]", response, JSONCompareMode.STRICT);
     }
     @Test
-    @DataSet(value = "vinyls.yml")
+    @DataSet(value = "datasets/vinyls.yml")
     @Transactional
     void idを指定し特定のVinylデータを取得できること() throws Exception {
         String response = mockMvc.perform(MockMvcRequestBuilders.get("/vinyls/1"))
@@ -69,10 +69,10 @@ public class VinylIntegrationTest {
 
         JSONAssert.assertEquals("{" +
                 "\"id\":1," +
-                "\"title\":aa," +
-                "\"artist\":bb," +
-                "\"label\":cc," +
-                "\"release_year\":1999" +
+                "\"title\":\"aa\"," +
+                "\"artist\":\"bb\"," +
+                "\"label\":\"cc\"," +
+                "\"releaseYear\":\"1999\"" +
                 "}", response, JSONCompareMode.STRICT);
     }
     @Test
@@ -103,8 +103,7 @@ public class VinylIntegrationTest {
         String response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/vinyls")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\":\"sss\",\"artist\":\"ddd\",\"label\":\"fff\",\"releaseYear\": " +
-                                "2003}"))
+                        .content("{\"title\":\"sss\",\"artist\":\"ddd\",\"label\":\"fff\",\"releaseYear\": \"2003\"}"))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         JSONAssert.assertEquals("{\"message\":\"New Vinyl Data Is Added\"}", response, JSONCompareMode.STRICT);
