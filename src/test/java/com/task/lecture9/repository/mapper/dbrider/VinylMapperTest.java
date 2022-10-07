@@ -72,6 +72,6 @@ class VinylMapperTest {
         );
 //        idの自動採番が正しく機能するか確認
         vinylMapper.insert(vinylDto);
-        assertThat(vinylDto.getId()).isEqualTo(7);
+        assertThat(vinylDto.getId()).isEqualTo(6);
     }
 }

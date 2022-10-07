@@ -47,14 +47,14 @@ public class VinylIntegrationTest {
                 "\"title\":aa," +
                 "\"artist\": bb," +
                 "\"label\": cc," +
-                "\"release_year\":1999" +
+                "\"releaseYear\":1999" +
                 "}," +
                 "{ " +
                 "\"id\":2," +
                 "\"title\": aaa," +
                 "\"artist\": bbb," +
                 "\"label\":ccc," +
-                "\"release_year\":2000" +
+                "\"releaseYear\":2000" +
                 "}" +
                 "]", response, JSONCompareMode.STRICT);
     }
@@ -71,7 +71,7 @@ public class VinylIntegrationTest {
                 "\"title\":aa," +
                 "\"artist\":bb," +
                 "\"label\":cc," +
-                "\"release_year\":1999" +
+                "\"releaseYear\":1999" +
                 "}", response, JSONCompareMode.STRICT);
     }
     @Test
