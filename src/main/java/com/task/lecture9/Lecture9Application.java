@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Lecture9Application {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		SpringApplication.run(Lecture9Application.class, args);
-	}
+        SpringApplication.run(Lecture9Application.class, args);
+    }
 
 }
