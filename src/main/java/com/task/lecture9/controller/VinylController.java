@@ -2,7 +2,6 @@ package com.task.lecture9.controller;
 
 import com.task.lecture9.dto.VinylDto;
 import com.task.lecture9.form.InsertForm;
-import com.task.lecture9.form.ValidationGroupAll;
 import com.task.lecture9.repository.entity.Vinyl;
 import com.task.lecture9.service.VinylService;
 import com.task.lecture9.service.VinylServiceImpl;
@@ -37,13 +36,13 @@ public class VinylController {
     }
 
     @GetMapping("/vinyls/{id}")
-    public Object getVinylById(@PathVariable(required = false) Integer id) throws Exception {
+    public Vinyl getVinylById(@PathVariable(required = false) Integer id) throws Exception {
         return vinylService.findById(id);
     }
 
     @PostMapping("/vinyls")
-    public ResponseEntity<Map> create(
-            @Validated(ValidationGroupAll.class) @RequestBody InsertForm insertForm,
+    public ResponseEntity<Map<String, String>> create(
+            @Validated @RequestBody InsertForm insertForm,
             HttpServletRequest request) {
 
         VinylDto vinylDto = new VinylDto(

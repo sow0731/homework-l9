@@ -19,7 +19,7 @@ class InsertFormTest {
         Validator validator = validatorFactory.getValidator();
         InsertForm form = new InsertForm("aa", "bb", "cc", "2000");
 
-        Set<ConstraintViolation<InsertForm>> violations = validator.validate(form, ValidationGroupAll.class);
+        Set<ConstraintViolation<InsertForm>> violations = validator.validate(form);
         assertThat(violations.size()).isEqualTo(0);
     }
 
@@ -29,8 +29,8 @@ class InsertFormTest {
         Validator validator = validatorFactory.getValidator();
         InsertForm form = new InsertForm("", "", "", "");
 
-        Set<ConstraintViolation<InsertForm>> result = validator.validate(form, ValidationGroupAll.class);
-        assertThat(result.size()).isEqualTo(4);
+        Set<ConstraintViolation<InsertForm>> result = validator.validate(form);
+        assertThat(result.size()).isEqualTo(5);
 
         assertThat(result).extracting(propertyPath -> propertyPath.getPropertyPath().toString(),
                         message -> message.getMessage())
@@ -38,7 +38,8 @@ class InsertFormTest {
                         tuple("title", "titleを入力してください"),
                         tuple("artist", "artistを入力してください"),
                         tuple("label", "labelを入力してください"),
-                        tuple("releaseYear", "releaseYearを入力してください"));
+                        tuple("releaseYear", "releaseYearを入力してください"),
+                        tuple("releaseYear", "整数4桁で入力してください"));
     }
 
     @Test
@@ -51,7 +52,7 @@ class InsertFormTest {
                 "ccccccccccccccccccccccccccccccccccccccccccccccccccc",
                 "20003");
 
-        Set<ConstraintViolation<InsertForm>> result = validator.validate(form, ValidationGroupAll.class);
+        Set<ConstraintViolation<InsertForm>> result = validator.validate(form);
         assertThat(result.size()).isEqualTo(4);
 
         assertThat(result).extracting(propertyPath -> propertyPath.getPropertyPath().toString(),
@@ -73,7 +74,7 @@ class InsertFormTest {
                 "cccccc",
                 "eeee");
 
-        Set<ConstraintViolation<InsertForm>> result = validator.validate(form, ValidationGroupAll.class);
+        Set<ConstraintViolation<InsertForm>> result = validator.validate(form);
         assertThat(result.size()).isEqualTo(1);
 
         assertThat(result).extracting(propertyPath -> propertyPath.getPropertyPath().toString(),
@@ -92,7 +93,7 @@ class InsertFormTest {
                 "cccccc",
                 "203");
 
-        Set<ConstraintViolation<InsertForm>> result = validator.validate(form, ValidationGroupAll.class);
+        Set<ConstraintViolation<InsertForm>> result = validator.validate(form);
         assertThat(result.size()).isEqualTo(1);
 
         assertThat(result).extracting(propertyPath -> propertyPath.getPropertyPath().toString(),
