@@ -7,9 +7,9 @@ public class VinylDto {
     private String title;
     private String artist;
     private String label;
-    private int releaseYear;
+    private String releaseYear;
 
-    public VinylDto(String title, String artist, String label, int releaseYear) {
+    public VinylDto(String title, String artist, String label, String releaseYear) {
         this.id = 0;
         this.title = title;
         this.artist = artist;
@@ -38,10 +38,10 @@ public class VinylDto {
     public void setLabel(String label) {
         this.label = label;
     }
-    public int getReleaseYear() {
+    public String getReleaseYear() {
         return releaseYear;
     }
-    public void setReleaseYear(int releaseYear) {
+    public void setReleaseYear(String releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -68,7 +68,7 @@ public class VinylDto {
                 ", title='" + title + '\'' +
                 ", artist='" + artist + '\'' +
                 ", label='" + label + '\'' +
-                ", release_year=" + releaseYear +
+                ", releaseYear='" + releaseYear + '\'' +
                 '}';
     }
 }

@@ -126,11 +126,11 @@ public class VinylIntegrationTest {
                     "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
                     "\"status\":\"400\"," +
                     "\"error\":\"Bad Request\"," +
-                    "\"message\": {\"title\":\"titleを入力してください\"," +
-                    "\"artist\":\"artistを入力してください\"," +
-                    "\"label\":\"labelを入力してください\"," +
-                    "\"releaseYear\":\"releaseYearを入力してください\"," +
-                    "\"releaseYear\":\"整数4桁で入力してください\"}}", response, JSONCompareMode.STRICT);
+                    "\"message\": {\"title\":[\"titleを入力してください\"]," +
+                    "\"artist\":[\"artistを入力してください\"]," +
+                    "\"label\":[\"labelを入力してください\"]," +
+                    "\"releaseYear\":[\"releaseYearを入力してください\"]," +
+                    "\"releaseYear\":[\"整数4桁で入力してください\"]}}", response, JSONCompareMode.STRICT);
         }
     }
 
@@ -156,10 +156,10 @@ public class VinylIntegrationTest {
                     "\"status\":\"400\"," +
                     "\"error\":\"Bad Request\"," +
                     "\"message\": {" +
-                    "\"title\":\"titleは50文字以内で入力してください\"," +
-                    "\"artist\":\"artistは50文字以内で入力してください\"," +
-                    "\"label\":\"labelは50文字以内で入力してください\"," +
-                    "\"releaseYear\":\"整数4桁で入力してください\"}" +
+                    "\"title\":[\"titleは50文字以内で入力してください\"]," +
+                    "\"artist\":[\"artistは50文字以内で入力してください\"]," +
+                    "\"label\":[\"labelは50文字以内で入力してください\"]," +
+                    "\"releaseYear\":[\"整数4桁で入力してください\"]}" +
                     "}", response, JSONCompareMode.STRICT);
         }
     }
@@ -185,7 +185,7 @@ public class VinylIntegrationTest {
                     "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
                     "\"status\":\"400\"," +
                     "\"error\":\"Bad Request\"," +
-                    "\"message\": {\"releaseYear\":\"整数4桁で入力してください\"}}", response, JSONCompareMode.STRICT);
+                    "\"message\": {\"releaseYear\":[\"整数4桁で入力してください\"]}}", response, JSONCompareMode.STRICT);
         }
     }
 
@@ -210,7 +210,7 @@ public class VinylIntegrationTest {
                     "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
                     "\"status\":\"400\"," +
                     "\"error\":\"Bad Request\"," +
-                    "\"message\": {\"releaseYear\":\"整数4桁で入力してください\"}}", response, JSONCompareMode.STRICT);
+                    "\"message\": {\"releaseYear\":[\"整数4桁で入力してください\"]}}", response, JSONCompareMode.STRICT);
         }
     }
 }

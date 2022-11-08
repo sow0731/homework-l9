@@ -66,7 +66,7 @@ class VinylServiceImplTest {
 
     @Test
     void 新たにVinylを追加できること() {
-        VinylDto vinylDto = new VinylDto("ss", "dd", "ff", 2003);
+        VinylDto vinylDto = new VinylDto("ss", "dd", "ff", "2003");
 
         vinylMapper.insert(vinylDto);
 

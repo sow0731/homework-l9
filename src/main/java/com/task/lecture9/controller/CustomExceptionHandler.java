@@ -4,6 +4,8 @@ import com.task.lecture9.exception.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,8 +15,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.Map;
+
 
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
@@ -40,9 +42,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status,
             WebRequest request) {
 
-        Map<String, String> invalidParam = new HashMap<>();
+        MultiValueMap<String, String> invalidParam = new LinkedMultiValueMap<>();
         for (FieldError e : ex.getFieldErrors()) {
-            invalidParam.put(e.getField(), e.getDefaultMessage());
+            invalidParam.add(e.getField(), e.getDefaultMessage());
         }
 
         Map<String, Object> body = Map.of(

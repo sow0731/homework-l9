@@ -63,7 +63,7 @@ class VinylMapperTest {
     @ExpectedDataSet(value = "datasets/expectedVinylDataAfterInsert.yml", ignoreCols = "id")
     @Transactional
     void 新たにVinylデータが登録できること() {
-        InsertForm insertForm = new InsertForm("sss", "ddd", "fff", 2003);
+        InsertForm insertForm = new InsertForm("sss", "ddd", "fff", "2003");
         VinylDto vinylDto = new VinylDto(
                 insertForm.getTitle(),
                 insertForm.getArtist(),
@@ -72,6 +72,6 @@ class VinylMapperTest {
         );
 //        idの自動採番が正しく機能するか確認
         vinylMapper.insert(vinylDto);
-        assertThat(vinylDto.getId()).isEqualTo(7);
+        assertThat(vinylDto.getId()).isEqualTo(4);
     }
 }
