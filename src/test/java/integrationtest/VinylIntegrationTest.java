@@ -129,8 +129,8 @@ public class VinylIntegrationTest {
                     "\"message\": {\"title\":[\"titleを入力してください\"]," +
                     "\"artist\":[\"artistを入力してください\"]," +
                     "\"label\":[\"labelを入力してください\"]," +
-                    "\"releaseYear\":[\"releaseYearを入力してください\"]," +
-                    "\"releaseYear\":[\"整数4桁で入力してください\"]}}", response, JSONCompareMode.STRICT);
+                    "\"releaseYear\":[\"整数4桁で入力してください\"]," +
+                    "\"releaseYear\":[\"releaseYearを入力してください\"]}}", response, JSONCompareMode.STRICT);
         }
     }
 
