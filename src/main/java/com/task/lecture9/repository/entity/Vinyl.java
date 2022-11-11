@@ -1,6 +1,5 @@
 package com.task.lecture9.repository.entity;
 
-import java.time.Year;
 import java.util.Objects;
 
 public class Vinyl {
@@ -9,9 +8,9 @@ public class Vinyl {
     private String title;
     private String artist;
     private String label;
-    private int releaseYear;
+    private String releaseYear;
 
-    public Vinyl(int id, String title, String artist, String label, int releaseYear) {
+    public Vinyl(int id, String title, String artist, String label, String releaseYear) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -45,14 +44,13 @@ public class Vinyl {
         this.label = label;
     }
 
-    public int getReleaseYear() {
+    public String getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(Year Year) {
+    public void setReleaseYear(String releaseYear) {
         this.releaseYear = releaseYear;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -62,8 +60,7 @@ public class Vinyl {
             return false;
         }
         Vinyl vinyl = (Vinyl) o;
-        return releaseYear == vinyl.releaseYear && Objects.equals(id, vinyl.id) && Objects.equals(title,
-                vinyl.title) && Objects.equals(artist, vinyl.artist) && Objects.equals(label, vinyl.label);
+        return id.equals(vinyl.id) && title.equals(vinyl.title) && artist.equals(vinyl.artist) && label.equals(vinyl.label) && releaseYear.equals(vinyl.releaseYear);
     }
     @Override
     public int hashCode() {
@@ -76,7 +73,7 @@ public class Vinyl {
                 ", title='" + title + '\'' +
                 ", artist='" + artist + '\'' +
                 ", label='" + label + '\'' +
-                ", release_year=" + releaseYear +
+                ", releaseYear='" + releaseYear + '\'' +
                 '}';
     }
 }

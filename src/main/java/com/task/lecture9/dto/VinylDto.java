@@ -54,8 +54,7 @@ public class VinylDto {
             return false;
         }
         VinylDto vinylDto = (VinylDto) o;
-        return releaseYear == vinylDto.releaseYear && Objects.equals(id, vinylDto.id) && Objects.equals(title,
-                vinylDto.title) && Objects.equals(artist, vinylDto.artist) && Objects.equals(label, vinylDto.label);
+        return id.equals(vinylDto.id) && title.equals(vinylDto.title) && artist.equals(vinylDto.artist) && label.equals(vinylDto.label) && releaseYear.equals(vinylDto.releaseYear);
     }
     @Override
     public int hashCode() {

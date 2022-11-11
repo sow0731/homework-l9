@@ -32,8 +32,8 @@ class VinylServiceImplTest {
 
     @Test
     void VinylMapperから取得したVinylをそのまま返すこと() {
-        List<Vinyl> vinyls = Arrays.asList(new Vinyl(1, "a", "b", "c", 1000),
-                new Vinyl(2, "aa", "bb", "cc", 2000));
+        List<Vinyl> vinyls = Arrays.asList(new Vinyl(1, "a", "b", "c", "1000"),
+                new Vinyl(2, "aa", "bb", "cc", "2000"));
 
         doReturn(vinyls).when(vinylMapper).findAll();
         List<Vinyl> actualVinyls = vinylServiceImpl.findAll();
@@ -44,7 +44,7 @@ class VinylServiceImplTest {
     }
     @Test
     void 存在するVinylのidを指定した時に正常にVinylが返されること() throws Exception {
-        Optional<Vinyl> vinyl = Optional.of(new Vinyl(10, "aa", "bb", "cc", 1000));
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(10, "aa", "bb", "cc", "1000"));
 
         doReturn(vinyl).when(vinylMapper).findById(10);
         Optional<Vinyl> actual = vinylMapper.findById(10);

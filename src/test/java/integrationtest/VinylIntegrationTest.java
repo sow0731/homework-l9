@@ -45,6 +45,7 @@ public class VinylIntegrationTest {
         JSONAssert.assertEquals("[" +
                 "{" +
                 "\"id\":1," +
+
                 "\"title\":\"aa\"," +
                 "\"artist\":\"bb\"," +
                 "\"label\":\"cc\"," +
