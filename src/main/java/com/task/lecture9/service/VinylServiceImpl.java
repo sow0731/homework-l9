@@ -15,11 +15,13 @@ public class VinylServiceImpl implements VinylService {
     private final VinylMapper vinylMapper;
 
     public VinylServiceImpl(VinylMapper vinylMapper) {
+
         this.vinylMapper = vinylMapper;
     }
 
     @Override
     public List<Vinyl> findAll() {
+
         return vinylMapper.findAll();
     }
 
@@ -33,5 +35,11 @@ public class VinylServiceImpl implements VinylService {
     public int insert(VinylDto vinylDto) {
         vinylMapper.insert(vinylDto);
         return vinylDto.getId();
+    }
+
+    @Override
+    public Vinyl update(Integer id, VinylDto vinylDto) {
+        vinylMapper.update(id, vinylDto);
+        return vinylMapper.findById(id).orElseThrow(() -> new ResourceNotFoundException("更新するデータがありません"));
     }
 }

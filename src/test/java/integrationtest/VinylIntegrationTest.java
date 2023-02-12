@@ -45,7 +45,6 @@ public class VinylIntegrationTest {
         JSONAssert.assertEquals("[" +
                 "{" +
                 "\"id\":1," +
-
                 "\"title\":\"aa\"," +
                 "\"artist\":\"bb\"," +
                 "\"label\":\"cc\"," +
@@ -202,6 +201,131 @@ public class VinylIntegrationTest {
                             .content("{\"title\":\"aaaaaa\"," +
                                     "\"artist\":\"bbbbbb\"," +
                                     "\"label\":\"ccccccc\"," +
+                                    "\"releaseYear\":\"203\"}")
+                            .header(HttpHeaders.ACCEPT_LANGUAGE, "ja-JP"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+            JSONAssert.assertEquals("{" +
+                    "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
+                    "\"status\":\"400\"," +
+                    "\"error\":\"Bad Request\"," +
+                    "\"message\": {\"releaseYear\":[\"整数4桁で入力してください\"]}}", response, JSONCompareMode.STRICT);
+        }
+    }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void 既存のVinylデータが更新される事() throws Exception {
+        String response = mockMvc
+                .perform(MockMvcRequestBuilders.patch("/vinyls/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\"aab\",\"artist\":\"bbc\",\"label\":\"ccd\",\"releaseYear\": \"1998\"}"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        JSONAssert.assertEquals("{\"id\":1,\"title\":\"aab\",\"artist\":\"bbc\",\"label\":\"ccd\",\"releaseYear\": " +
+                        "\"1998\"}",
+                response, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void 既存のVinylデータが部分更新される事() throws Exception {
+        String response = mockMvc
+                .perform(MockMvcRequestBuilders.patch("/vinyls/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\"aab\",\"artist\":null,\"label\":null,\"releaseYear\":null}"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        JSONAssert.assertEquals("{\"id\":1,\"title\":\"aab\",\"artist\":\"bb\",\"label\":\"cc\",\"releaseYear\": " +
+                        "\"1999\"}",
+                response, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void 全てのフィールドがnullだった場合更新されないこと() throws Exception {
+        String response = mockMvc
+                .perform(MockMvcRequestBuilders.patch("/vinyls/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        JSONAssert.assertEquals("{\"id\":1,\"title\":\"aa\",\"artist\":\"bb\",\"label\":\"cc\",\"releaseYear\": " +
+                        "\"1999\"}",
+                response, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void 必須項目を制限文字数以上で更新した場合Badリクエストが返って来ること() throws Exception {
+        try (MockedStatic<ZonedDateTime> zonedDateTimeMockedStatic = Mockito.mockStatic(ZonedDateTime.class)) {
+            zonedDateTimeMockedStatic.when(ZonedDateTime::now).thenReturn(zonedDataTime);
+
+            String response = mockMvc.perform(MockMvcRequestBuilders.patch("/vinyls/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"title\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"," +
+                                    "\"artist\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"," +
+                                    "\"label\":\"ccccccccccccccccccccccccccccccccccccccccccccccccccc\"," +
+                                    "\"releaseYear\":\"20003\"}")
+                            .header(HttpHeaders.ACCEPT_LANGUAGE, "ja-JP"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+            JSONAssert.assertEquals("{" +
+                    "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
+                    "\"status\":\"400\"," +
+                    "\"error\":\"Bad Request\"," +
+                    "\"message\": {" +
+                    "\"title\":[\"titleは50文字以内で入力してください\"]," +
+                    "\"artist\":[\"artistは50文字以内で入力してください\"]," +
+                    "\"label\":[\"labelは50文字以内で入力してください\"]," +
+                    "\"releaseYear\":[\"整数4桁で入力してください\"]}" +
+                    "}", response, JSONCompareMode.STRICT);
+        }
+    }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void releaseYearを整数以外で更新した場合Badリクエストが返って来ること() throws Exception {
+        try (MockedStatic<ZonedDateTime> zonedDateTimeMockedStatic = Mockito.mockStatic(ZonedDateTime.class)) {
+            zonedDateTimeMockedStatic.when(ZonedDateTime::now).thenReturn(zonedDataTime);
+
+            String response = mockMvc.perform(MockMvcRequestBuilders.patch("/vinyls/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"title\":\"aaaa\"," +
+                                    "\"artist\":\"bbbb\"," +
+                                    "\"label\":\"cccc\"," +
+                                    "\"releaseYear\":\"llll\"}")
+                            .header(HttpHeaders.ACCEPT_LANGUAGE, "ja-JP"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+            JSONAssert.assertEquals("{" +
+                    "\"timestamp\":\"2022-08-31T00:00+09:00[Asia/Tokyo]\"," +
+                    "\"status\":\"400\"," +
+                    "\"error\":\"Bad Request\"," +
+                    "\"message\": {\"releaseYear\":[\"整数4桁で入力してください\"]}}", response, JSONCompareMode.STRICT);
+        }
+    }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void releaseYearを4桁未満の整数で更新した場合Badリクエストが返って来ること() throws Exception {
+        try (MockedStatic<ZonedDateTime> zonedDateTimeMockedStatic = Mockito.mockStatic(ZonedDateTime.class)) {
+            zonedDateTimeMockedStatic.when(ZonedDateTime::now).thenReturn(zonedDataTime);
+
+            String response = mockMvc.perform(MockMvcRequestBuilders.patch("/vinyls/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"title\":\"aaaa\"," +
+                                    "\"artist\":\"bbbb\"," +
+                                    "\"label\":\"cccc\"," +
                                     "\"releaseYear\":\"203\"}")
                             .header(HttpHeaders.ACCEPT_LANGUAGE, "ja-JP"))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest())

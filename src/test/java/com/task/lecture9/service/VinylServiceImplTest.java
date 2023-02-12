@@ -17,6 +17,7 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -71,5 +72,113 @@ class VinylServiceImplTest {
         vinylMapper.insert(vinylDto);
 
         verify(vinylMapper, times(1)).insert(vinylDto);
+    }
+
+    @Test
+    void 既存のVinylを更新できること() {
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(7, "nn", "mm", "ww", "1999"));
+        VinylDto vinylDto = new VinylDto("nn", "mm", "ww", "1999");
+
+        doReturn(vinyl).when(vinylMapper).findById(7);
+        doNothing().when(vinylMapper).update(7, vinylDto);
+
+        Optional<Vinyl> actual = Optional.ofNullable(vinylServiceImpl.update(7, vinylDto));
+
+        assertThat(actual).isEqualTo(vinyl);
+
+        verify(vinylMapper, times(1)).update(7, vinylDto);
+        verify(vinylMapper, times(1)).findById(7);
+    }
+
+    @Test
+    void 存在しないidで更新した場合更新するデータがありませんと返されること() {
+        doReturn(Optional.empty()).when(vinylMapper).findById(anyInt());
+        VinylDto vinylDto = new VinylDto("ds", "wq", "er", "2003");
+
+        ResourceNotFoundException e =
+                assertThrows(ResourceNotFoundException.class, () -> {
+                    vinylServiceImpl.update(99, vinylDto);
+                });
+        assertThat(e.getMessage()).isEqualTo("更新するデータがありません");
+
+        verify(vinylMapper, times(1)).update(99, vinylDto);
+        verify(vinylMapper, times(1)).findById(99);
+    }
+
+    @Test
+    void 全項目nullを入力した場合に全て更新されないこと() {
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(7, "nn", "mm", "ww", "1999"));
+        VinylDto vinylDto = new VinylDto(null, null, null, null);
+
+        doReturn(vinyl).when(vinylMapper).findById(7);
+        doNothing().when(vinylMapper).update(7, vinylDto);
+
+        Optional<Vinyl> actual = Optional.ofNullable(vinylServiceImpl.update(7, vinylDto));
+
+        assertThat(actual).isEqualTo(vinyl);
+
+        verify(vinylMapper, times(1)).update(7, vinylDto);
+        verify(vinylMapper, times(1)).findById(7);
+    }
+
+    @Test
+    void title以外にnullを入力した場合titleのみが部分更新されること() {
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(7, "nn", "mm", "ww", "1999"));
+        VinylDto vinylDto = new VinylDto("nn", null, null, null);
+
+        doReturn(vinyl).when(vinylMapper).findById(7);
+        doNothing().when(vinylMapper).update(7, vinylDto);
+
+        Optional<Vinyl> actual = Optional.ofNullable(vinylServiceImpl.update(7, vinylDto));
+
+        assertThat(actual).isEqualTo(vinyl);
+
+        verify(vinylMapper, times(1)).update(7, vinylDto);
+        verify(vinylMapper, times(1)).findById(7);
+    }
+    @Test
+    void artist以外にnullを入力した場合artistのみが部分更新されること() {
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(7, "nn", "mm", "ww", "1999"));
+        VinylDto vinylDto = new VinylDto(null, "mm", null, null);
+
+        doReturn(vinyl).when(vinylMapper).findById(7);
+        doNothing().when(vinylMapper).update(7, vinylDto);
+
+        Optional<Vinyl> actual = Optional.ofNullable(vinylServiceImpl.update(7, vinylDto));
+
+        assertThat(actual).isEqualTo(vinyl);
+
+        verify(vinylMapper, times(1)).update(7, vinylDto);
+        verify(vinylMapper, times(1)).findById(7);
+    }
+    @Test
+    void label以外にnullを入力した場合labelのみが部分更新されること() {
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(7, "nn", "mm", "ww", "1999"));
+        VinylDto vinylDto = new VinylDto(null, null, "ww", null);
+
+        doReturn(vinyl).when(vinylMapper).findById(7);
+        doNothing().when(vinylMapper).update(7, vinylDto);
+
+        Optional<Vinyl> actual = Optional.ofNullable(vinylServiceImpl.update(7, vinylDto));
+
+        assertThat(actual).isEqualTo(vinyl);
+
+        verify(vinylMapper, times(1)).update(7, vinylDto);
+        verify(vinylMapper, times(1)).findById(7);
+    }
+    @Test
+    void releaseYear以外にnullを入力した場合releaseYearのみが部分更新されること() {
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(7, "nn", "mm", "ww", "1999"));
+        VinylDto vinylDto = new VinylDto(null, null, null, "1999");
+
+        doReturn(vinyl).when(vinylMapper).findById(7);
+        doNothing().when(vinylMapper).update(7, vinylDto);
+
+        Optional<Vinyl> actual = Optional.ofNullable(vinylServiceImpl.update(7, vinylDto));
+
+        assertThat(actual).isEqualTo(vinyl);
+
+        verify(vinylMapper, times(1)).update(7, vinylDto);
+        verify(vinylMapper, times(1)).findById(7);
     }
 }
