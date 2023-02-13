@@ -63,8 +63,7 @@ public class VinylController {
     public ResponseEntity<Vinyl> update(
             @PathVariable("id" ) Integer id,
             @Validated @RequestBody UpdateForm updateForm) throws Exception {
-
-
+        
         VinylDto vinylDto = new VinylDto(
                 updateForm.getTitle(),
                 updateForm.getArtist(),
