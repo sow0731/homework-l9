@@ -1,0 +1,6 @@
+vinyl:
+  - id: 1
+    title: "aab"
+    artist: "bbc"
+    label: "ccd"
+    release_year: "1998"
