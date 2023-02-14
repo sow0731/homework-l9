@@ -32,27 +32,27 @@ class VinylMapperTest {
     DataSource dataSource;
 
     @Test
-    @DataSet(value = "datasets/vinyls.yml" )
+    @DataSet(value = "datasets/vinyls.yml")
     @Transactional
     void Vinylデータが全件取得できること() {
         List<Vinyl> vinyls = vinylMapper.findAll();
         assertThat(vinyls)
                 .hasSize(2)
                 .contains(
-                        new Vinyl(1, "aa", "bb", "cc", "1999" ),
-                        new Vinyl(2, "aaa", "bbb", "ccc", "2000" ));
+                        new Vinyl(1, "aa", "bb", "cc", "1999"),
+                        new Vinyl(2, "aaa", "bbb", "ccc", "2000"));
     }
 
     @Test
-    @DataSet(value = "datasets/vinyls.yml" )
+    @DataSet(value = "datasets/vinyls.yml")
     @Transactional
     void 指定したidから特定のVinylデータが取得できること() {
         Optional<Vinyl> vinyl = vinylMapper.findById(1);
-        assertThat(vinyl).hasValue((new Vinyl(1, "aa", "bb", "cc", "1999" )));
+        assertThat(vinyl).hasValue((new Vinyl(1, "aa", "bb", "cc", "1999")));
     }
 
     @Test
-    @DataSet(value = "datasets/vinyls.yml" )
+    @DataSet(value = "datasets/vinyls.yml")
     @Transactional
     void 存在しないidでリクエストをした場合取得するデータが空であること() {
         Optional<Vinyl> vinyl = vinylMapper.findById(30);
@@ -61,10 +61,10 @@ class VinylMapperTest {
 
     @Test
     @DataSet(cleanBefore = true)
-    @ExpectedDataSet(value = "datasets/expectedVinylDataAfterInsert.yml", ignoreCols = "id" )
+    @ExpectedDataSet(value = "datasets/expectedVinylDataAfterInsert.yml", ignoreCols = "id")
     @Transactional
     void 新たにVinylデータが登録できること() {
-        InsertForm insertForm = new InsertForm("sss", "ddd", "fff", "2003" );
+        InsertForm insertForm = new InsertForm("sss", "ddd", "fff", "2003");
         VinylDto vinylDto = new VinylDto(
                 insertForm.getTitle(),
                 insertForm.getArtist(),
@@ -77,12 +77,12 @@ class VinylMapperTest {
     }
 
     @Test
-    @DataSet(value = "datasets/forUpdateVinyl.yml" )
-    @ExpectedDataSet(value = "datasets/expectedVinylDataAfterUpdate.yml" )
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @ExpectedDataSet(value = "datasets/expectedVinylDataAfterUpdate.yml")
     @Transactional
     void 既存のVinylデータを更新できること() {
         vinylMapper.findById(1);
-        UpdateForm updateForm = new UpdateForm("aab", "bbc", "ccd", "1998" );
+        UpdateForm updateForm = new UpdateForm("aab", "bbc", "ccd", "1998");
         VinylDto vinylDto = new VinylDto(
                 updateForm.getTitle(),
                 updateForm.getArtist(),
@@ -93,11 +93,11 @@ class VinylMapperTest {
     }
 
     @Test
-    @DataSet(value = "datasets/forUpdateVinyl.yml" )
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
     @Transactional
     void 存在しないidで更新リクエストをした場合更新データが空であること() {
         vinylMapper.findById(10);
-        UpdateForm updateForm = new UpdateForm("uu", "oo", "ll", "1988" );
+        UpdateForm updateForm = new UpdateForm("uu", "oo", "ll", "1988");
         VinylDto vinylDto = new VinylDto(
                 updateForm.getTitle(),
                 updateForm.getArtist(),
@@ -108,8 +108,8 @@ class VinylMapperTest {
     }
 
     @Test
-    @DataSet(value = "datasets/forUpdateVinyl.yml" )
-    @ExpectedDataSet(value = "datasets/forUpdateVinyl.yml" )
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @ExpectedDataSet(value = "datasets/forUpdateVinyl.yml")
     @Transactional
     void nullが入力された場合更新されないこと() {
         vinylMapper.findById(1);
@@ -124,8 +124,8 @@ class VinylMapperTest {
     }
 
     @Test
-    @DataSet(value = "datasets/forUpdateVinyl.yml" )
-    @ExpectedDataSet(value = "expectedVinylDataAfterPartUpdate.yml" )
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @ExpectedDataSet(value = "expectedVinylDataAfterPartUpdate.yml")
     @Transactional
     void 部分更新ができること() {
         vinylMapper.findById(1);

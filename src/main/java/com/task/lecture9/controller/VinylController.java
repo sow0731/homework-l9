@@ -31,18 +31,18 @@ public class VinylController {
         this.vinylService = vinylServiceImpl;
     }
 
-    @GetMapping("/vinyls" )
+    @GetMapping("/vinyls")
     public List<Vinyl> getVinyls() {
 
         return vinylService.findAll();
     }
 
-    @GetMapping("/vinyls/{id}" )
+    @GetMapping("/vinyls/{id}")
     public Vinyl getVinylById(@PathVariable(required = false) Integer id) throws Exception {
         return vinylService.findById(id);
     }
 
-    @PostMapping("/vinyls" )
+    @PostMapping("/vinyls")
     public ResponseEntity<Map<String, String>> create(
             @Validated @RequestBody InsertForm insertForm,
             HttpServletRequest request) {
@@ -56,12 +56,12 @@ public class VinylController {
         int id = vinylService.insert(vinylDto);
 
         URI uri = ServletUriComponentsBuilder.fromContextPath(request).path("/vinyls/" + id).build().toUri();
-        return ResponseEntity.created(uri).body(Map.of("message", "New Vinyl Data Is Added" ));
+        return ResponseEntity.created(uri).body(Map.of("message", "New Vinyl Data Is Added"));
     }
 
-    @PatchMapping("/vinyls/{id}" )
+    @PatchMapping("/vinyls/{id}")
     public ResponseEntity<Vinyl> update(
-            @PathVariable("id" ) Integer id,
+            @PathVariable("id") Integer id,
             @Validated @RequestBody UpdateForm updateForm) throws Exception {
 
 

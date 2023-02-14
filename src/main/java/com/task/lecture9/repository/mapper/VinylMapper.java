@@ -13,15 +13,15 @@ import java.util.Optional;
 
 @Mapper
 public interface VinylMapper {
-    @Select("SELECT * FROM vinyl" )
+    @Select("SELECT * FROM vinyl")
     List<Vinyl> findAll();
 
-    @Select("SELECT * FROM vinyl WHERE id=#{id}" )
+    @Select("SELECT * FROM vinyl WHERE id=#{id}")
     Optional<Vinyl> findById(Integer id);
 
     @Insert("INSERT INTO vinyl (id, title, artist, label, release_year) VALUES (#{id}, #{title}, #{artist}, #{label}," +
-            " #{releaseYear})" )
-    @Options(useGeneratedKeys = true, keyProperty = "id" )
+            " #{releaseYear})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(VinylDto vinylDto);
 
     @Update("UPDATE vinyl " +
