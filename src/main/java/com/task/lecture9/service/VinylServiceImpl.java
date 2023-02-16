@@ -39,8 +39,8 @@ public class VinylServiceImpl implements VinylService {
 
     @Override
     public Vinyl update(Integer id, VinylDto vinylDto) {
-        var vinyl = vinylMapper.findById(id).orElseThrow(() -> new ResourceNotFoundException("更新するデータがありません"));
         vinylMapper.update(id, vinylDto);
+        var vinyl = vinylMapper.findById(id).orElseThrow(() -> new ResourceNotFoundException("更新するデータがありません"));
         return vinyl;
     }
 }
