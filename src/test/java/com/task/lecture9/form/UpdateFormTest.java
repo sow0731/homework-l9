@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.tuple;
 class UpdateFormTest {
 
     @Test
-    void Vinylデータが全て正しく入力されバリデーションエラーとならないこと() {
+    void Vinylデータが全て正しく入力されているときにバリデーションエラーとならないこと() {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         UpdateForm form = new UpdateForm("aa", "bb", "cc", "2000");
@@ -23,6 +23,21 @@ class UpdateFormTest {
         Set<ConstraintViolation<UpdateForm>> violations = validator.validate(form);
         assertThat(violations.size()).isEqualTo(0);
     }
+
+    @Test
+    void 各項目に制限文字数の最大値で入力した際にバリデーションエラーとならないこと() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        UpdateForm form = new UpdateForm(
+                "a".repeat(50),
+                "b".repeat(50),
+                "c".repeat(50),
+                "2005");
+
+        Set<ConstraintViolation<UpdateForm>> violations = validator.validate(form);
+        assertThat(violations.size()).isEqualTo(0);
+    }
+
     @Test
     void 各項目にnullを入力した際にバリデーションエラーとならないこと() {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -46,14 +61,15 @@ class UpdateFormTest {
                         message -> message.getMessage())
                 .containsOnly(tuple("releaseYear", "整数4桁で入力してください"));
     }
+
     @Test
     void 各項目に制限文字数以上で入力した際にバリデーションエラーとなること() {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         UpdateForm form = new UpdateForm(
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                "ccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "a".repeat(51),
+                "b".repeat(51),
+                "c".repeat(51),
                 "2000005");
 
         Set<ConstraintViolation<UpdateForm>> result = validator.validate(form);
