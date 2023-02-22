@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -180,5 +181,34 @@ class VinylServiceImplTest {
 
         verify(vinylMapper, times(1)).update(7, vinylDto);
         verify(vinylMapper, times(1)).findById(7);
+    }
+
+    @Test
+    void 指定したidのVinylDataを正常に削除できること() {
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(8, "aa", "bb", "cc", "1999"));
+
+        doReturn(vinyl).when(vinylMapper).findById(8);
+        doNothing().when(vinylMapper).delete(8);
+
+        Map<String, String> actual = vinylServiceImpl.delete(8);
+        assertThat(actual).isEqualTo(Map.of("message", "Vinyl Data Has Been Deleted"));
+
+        verify(vinylMapper, times(1)).findById(8);
+        verify(vinylMapper, times(1)).delete(8);
+    }
+
+    @Test
+    void 存在しないidで削除リクエストをした場合削除するデータがありませんと返されること() {
+        Optional<Vinyl> vinyl = Optional.of(new Vinyl(8, "aa", "bb", "cc", "1999"));
+
+        doReturn(Optional.empty()).when(vinylMapper).findById(10);
+
+        ResourceNotFoundException e =
+                assertThrows(ResourceNotFoundException.class, () -> {
+                    vinylServiceImpl.delete(10);
+                });
+        assertThat(e.getMessage()).isEqualTo("削除するデータがありません");
+
+        verify(vinylMapper, times(1)).findById(10);
     }
 }
