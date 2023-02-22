@@ -2,6 +2,7 @@ package com.task.lecture9.repository.mapper;
 
 import com.task.lecture9.dto.VinylDto;
 import com.task.lecture9.repository.entity.Vinyl;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -36,4 +37,7 @@ public interface VinylMapper {
             "WHERE id=#{id}"
     )
     void update(Integer id, VinylDto vinylDto);
+
+    @Delete("DELETE FROM vinyl WHERE id=#{id}")
+    void delete(Integer id);
 }

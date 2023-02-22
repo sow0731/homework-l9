@@ -9,6 +9,7 @@ import com.task.lecture9.service.VinylServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,6 +73,15 @@ public class VinylController {
                 updateForm.getReleaseYear());
 
         var vinyl = vinylService.update(id, vinylDto);
+
+        return ResponseEntity.ok(vinyl);
+    }
+
+    @DeleteMapping("/vinyls/{id}")
+    public ResponseEntity<Map<String, String>> delete(
+            @PathVariable("id") Integer id) {
+
+        var vinyl = vinylService.delete(id);
 
         return ResponseEntity.ok(vinyl);
     }
