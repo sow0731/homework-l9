@@ -138,4 +138,20 @@ class VinylMapperTest {
         );
         vinylMapper.update(1, vinylDto);
     }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void 指定したidのVinylDataを正常に削除できること() {
+        vinylMapper.delete(1);
+        assertThat(vinylMapper.findById(1)).isEmpty();
+    }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void 存在しないidで削除リクエストをした場合何も削除されないこと() {
+        vinylMapper.delete(10);
+        assertThat(vinylMapper.findAll()).contains(new Vinyl(1, "aa", "bb", "cc", "1999"));
+    }
 }
