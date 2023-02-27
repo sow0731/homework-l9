@@ -13,4 +13,6 @@ public interface VinylService {
     int insert(VinylDto vinylDto);
 
     Vinyl update(Integer id, VinylDto vinylDto) throws Exception;
+
+    void delete(Integer id);
 }

@@ -339,4 +339,42 @@ public class VinylIntegrationTest {
                     "\"message\": {\"releaseYear\":[\"整数4桁で入力してください\"]}}", response, JSONCompareMode.STRICT);
         }
     }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void 指定したidのVinylDataを正常に削除できること() throws Exception {
+        String response = mockMvc.perform(MockMvcRequestBuilders.delete("/vinyls/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        JSONAssert.assertEquals("""
+                {
+                "message":"Vinyl Data Has Been Deleted"
+                }
+                """, response, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    @DataSet(value = "datasets/forUpdateVinyl.yml")
+    @Transactional
+    void 存在しないidで削除リクエストをした場合削除するデータがありませんと返されること() throws Exception {
+        try (MockedStatic<ZonedDateTime> zonedDateTimeMockedStatic = Mockito.mockStatic(ZonedDateTime.class)) {
+            zonedDateTimeMockedStatic.when(ZonedDateTime::now).thenReturn(zonedDataTime);
+
+            String response = mockMvc.perform(MockMvcRequestBuilders.delete("/vinyls/10"))
+                    .andExpect(MockMvcResultMatchers.status().isNotFound())
+                    .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+            JSONAssert.assertEquals("""
+                    {
+                    "timestamp":"2022-08-31T00:00+09:00[Asia/Tokyo]",
+                    "status":"404",
+                    "error":"Not Found",
+                    "message":"削除するデータがありません",
+                    "path":"/vinyls/10"
+                    }
+                    """, response, JSONCompareMode.STRICT);
+        }
+    }
 }
