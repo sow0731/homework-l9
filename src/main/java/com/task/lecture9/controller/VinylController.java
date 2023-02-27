@@ -81,8 +81,8 @@ public class VinylController {
     public ResponseEntity<Map<String, String>> delete(
             @PathVariable("id") Integer id) {
 
-        var vinyl = vinylService.delete(id);
+        vinylService.delete(id);
 
-        return ResponseEntity.ok(vinyl);
+        return ResponseEntity.ok().body(Map.of("message", "Vinyl Data Has Been Deleted"));
     }
 }

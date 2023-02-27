@@ -7,7 +7,6 @@ import com.task.lecture9.repository.mapper.VinylMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -46,9 +45,8 @@ public class VinylServiceImpl implements VinylService {
     }
 
     @Override
-    public Map<String, String> delete(Integer id) {
+    public void delete(Integer id) {
         var vinyl = vinylMapper.findById(id).orElseThrow(() -> new ResourceNotFoundException("削除するデータがありません"));
         vinylMapper.delete(id);
-        return Map.of("message", "Vinyl Data Has Been Deleted");
     }
 }

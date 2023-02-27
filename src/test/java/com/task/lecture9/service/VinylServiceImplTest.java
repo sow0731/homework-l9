@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -190,8 +189,7 @@ class VinylServiceImplTest {
         doReturn(vinyl).when(vinylMapper).findById(8);
         doNothing().when(vinylMapper).delete(8);
 
-        Map<String, String> actual = vinylServiceImpl.delete(8);
-        assertThat(actual).isEqualTo(Map.of("message", "Vinyl Data Has Been Deleted"));
+        vinylServiceImpl.delete(8);
 
         verify(vinylMapper, times(1)).findById(8);
         verify(vinylMapper, times(1)).delete(8);
