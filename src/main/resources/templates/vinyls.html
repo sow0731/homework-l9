@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/stylesheet.css}" rel="styleSheet">
+    <title>your vinyls here</title>
+</head>
+<body>
+    <div align=center><h1>Searchin' for vinyl</h1>
+    </div>
+    <div align=center>
+        <table border=1>
+            <tr>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>ARTIST</th>
+                <th>LABEL</th>
+                <th>RELEASE_YEAR</th>
+            </tr>
+            <tr th:each="v:${getVinyls}">
+                <td th:text="${v.id}"></td>
+                <td th:text="${v.title}"></td>
+                <td th:text="${v.artist}"></td>
+                <td th:text="${v.label}"></td>
+                <td th:text="${v.releaseYear}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
